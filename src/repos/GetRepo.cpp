@@ -4,17 +4,15 @@
 #include "rapidjson/document.h"
 #include <regex>
 #include <sstream>
+#include <ctime>
 #include <iomanip>
-
-#ifdef WIN32
 #include <locale>
-#endif
 
 using namespace rapidjson;
 
-#ifdef WIN32
+// platform independent strptime
 // https://stackoverflow.com/a/33542189
-extern "C" char* strptime(const char* s,
+extern "C" char* my_strptime(const char* s,
 	const char* f,
 	struct tm* tm)
 {
@@ -27,7 +25,6 @@ extern "C" char* strptime(const char* s,
 	}
 	return (char*)(s + input.tellg());
 }
-#endif
 
 std::vector<std::unique_ptr<Package>> GetRepo::loadPackages()
 {
@@ -130,7 +127,7 @@ std::vector<std::unique_ptr<Package>> GetRepo::loadPackages()
 			package->updated = cur["updated"].GetString();
 			struct tm tm {};
 
-			auto res = strptime(package->updated.c_str(), "%d/%m/%Y", &tm);
+			auto res = my_strptime(package->updated.c_str(), "%d/%m/%Y", &tm);
 			if (res)
 			{
 				// make sure that all the time-related fields are set
