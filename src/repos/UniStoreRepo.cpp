@@ -129,7 +129,7 @@ std::vector<std::unique_ptr<Package>> UniStoreRepo::loadPackages()
 			struct tm tm {};
 
 			// convert 2019-12-27T20:44:30Z to timestamp
-			auto res = strptime(package->updated.c_str(), "%Y-%m-%dT%H:%M:%SZ", &tm);
+			auto res = my_strptime(package->updated.c_str(), "%Y-%m-%dT%H:%M:%SZ", &tm);
 			if (res)
 			{
 				// make sure that all the time-related fields are set

@@ -34,6 +34,8 @@
 #include <string>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <iomanip>
+#include <locale>
 
 #include "Utils.hpp"
 
@@ -109,6 +111,22 @@ int my_mkdir(const std::string& path, int perms)
 #else
 	return mkdir(path.c_str(), perms);
 #endif
+}
+
+// platform independent strptime
+// https://stackoverflow.com/a/33542189
+char* my_strptime(const char* s,
+	const char* f,
+	struct tm* tm)
+{
+	std::istringstream input(s);
+	input.imbue(std::locale(setlocale(LC_ALL, nullptr)));
+	input >> std::get_time(tm, f);
+	if (input.fail())
+	{
+		return nullptr;
+	}
+	return (char*)(s + input.tellg());
 }
 
 // http://stackoverflow.com/a/11366985

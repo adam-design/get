@@ -4,27 +4,9 @@
 #include "rapidjson/document.h"
 #include <regex>
 #include <sstream>
-#include <ctime>
 #include <iomanip>
-#include <locale>
 
 using namespace rapidjson;
-
-// platform independent strptime
-// https://stackoverflow.com/a/33542189
-extern "C" char* my_strptime(const char* s,
-	const char* f,
-	struct tm* tm)
-{
-	std::istringstream input(s);
-	input.imbue(std::locale(setlocale(LC_ALL, nullptr)));
-	input >> std::get_time(tm, f);
-	if (input.fail())
-	{
-		return nullptr;
-	}
-	return (char*)(s + input.tellg());
-}
 
 std::vector<std::unique_ptr<Package>> GetRepo::loadPackages()
 {
