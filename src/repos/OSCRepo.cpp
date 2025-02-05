@@ -9,12 +9,6 @@
 
 using namespace rapidjson;
 
-#ifdef WIN32
-// needed for windows.h conflict with rapidjson namespace:
-// https://github.com/Tencent/rapidjson/issues/1448
-#undef GetObject
-#endif
-
 std::vector<std::unique_ptr<Package>> OSCRepo::loadPackages()
 {
 	std::vector<std::unique_ptr<Package>> result;
@@ -101,7 +95,7 @@ std::vector<std::unique_ptr<Package>> OSCRepo::loadPackages()
 
 		if (cur.HasMember("description"))
 		{
-			auto desc = cur["description"].GetObject();
+			auto desc = cur["description"].GetObj();
 			if (desc.HasMember("short") && desc["short"].IsString())
 				package->short_desc = desc["short"].GetString();
 			if (desc.HasMember("long") && desc["long"].IsString())
@@ -136,7 +130,7 @@ std::vector<std::unique_ptr<Package>> OSCRepo::loadPackages()
 
 		if (cur.HasMember("file_size"))
 		{
-			auto fileSize = cur["file_size"].GetObject();
+			auto fileSize = cur["file_size"].GetObj();
 			if (fileSize.HasMember("zip_compressed"))
 				package->download_size += fileSize["zip_compressed"].GetInt();
 			if (fileSize.HasMember("zip_uncompressed"))
@@ -151,7 +145,7 @@ std::vector<std::unique_ptr<Package>> OSCRepo::loadPackages()
 
 		if (cur.HasMember("url"))
 		{
-			auto url = cur["url"].GetObject();
+			auto url = cur["url"].GetObj();
 			if (url.HasMember("zip"))
 				package->url = url["zip"].GetString();
 			if (url.HasMember("icon"))

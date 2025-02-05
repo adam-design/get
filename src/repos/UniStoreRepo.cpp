@@ -65,8 +65,8 @@ std::vector<std::unique_ptr<Package>> UniStoreRepo::loadPackages()
 			networking_callback(nullptr, total, i + 1, 0, 0);
 		
 		std::vector<std::string> keys;
-		auto start = packages_doc[i].GetObject().MemberBegin();
-		auto end = packages_doc[i].GetObject().MemberEnd();
+		auto start = packages_doc[i].GetObj().MemberBegin();
+		auto end = packages_doc[i].GetObj().MemberEnd();
 		for (auto it = start; it != end; ++it) {
 			keys.push_back(it->name.GetString());
 		}
@@ -152,7 +152,7 @@ std::vector<std::unique_ptr<Package>> UniStoreRepo::loadPackages()
 			std::vector<std::string> endings = { ".zip", ".3dsx", ".cia" };
 			for (auto& ending : endings)
 			{
-				auto cur2 = cur["downloads"].GetObject();
+				auto cur2 = cur["downloads"].GetObj();
 				auto start = cur2.MemberBegin();
 				auto end = cur2.MemberEnd();
 				for (auto it = start; it != end; ++it) {
