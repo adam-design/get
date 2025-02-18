@@ -54,7 +54,7 @@ Below are three example repos. The first two are libget repos used by the Switch
   {
     "repos": [{
        "name":"Wii OSC Repo",
-       "url":"https://hbb1.oscwii.org/api/v3/contents",
+       "url":"https://hbb1.oscwii.org",
        "type":"osc",
        "enabled":true
     }]
