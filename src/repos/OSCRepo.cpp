@@ -12,7 +12,7 @@ using namespace rapidjson;
 std::vector<std::unique_ptr<Package>> OSCRepo::loadPackages()
 {
 	std::vector<std::unique_ptr<Package>> result;
-	std::string directoryUrl = this->url;
+	std::string directoryUrl = this->url + "/api/v3/contents";
 
 	std::string response;
 	bool success = downloadFileToMemory(directoryUrl, &response);
@@ -25,7 +25,7 @@ std::vector<std::unique_ptr<Package>> OSCRepo::loadPackages()
 
 		// update repo url
 		this->url.replace(0, 5, "http");
-		directoryUrl = this->url;
+		directoryUrl = this->url + "/api/v3/contents";
 
 		// retry fetch
 		success = downloadFileToMemory(directoryUrl, &response);
